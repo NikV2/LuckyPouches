@@ -1,0 +1,16 @@
+name: LuckyPouches
+version: ${project.version}
+main: me.nik.luckypouches.LuckyPouches
+api-version: 1.13
+softdepend: [ Vault, EliteMobs ]
+authors: [ Nik ]
+description: Let your players redeem Pouches of Cash!
+website: https://discord.com/invite/m7j2Y9H
+commands:
+  luckypouches:
+    description: Let your players redeem Pouches of Cash!
+    aliases: [ pouch ]
+permissions:
+  luckypouches.admin:
+    description: Gain full access to LuckyPouches
+    default: op
