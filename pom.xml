@@ -37,10 +37,12 @@
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <relocations>
-                        <relocation>
+
+                    <relocation>
                             <pattern>de.tr7zw</pattern>
                             <shadedPattern>luckypouches_libs.nbtapi</shadedPattern>
                         </relocation>
+
                     </relocations>
                 </configuration>
                 <executions>
