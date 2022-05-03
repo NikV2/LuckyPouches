@@ -39,7 +39,7 @@ public class Config {
 
         File configFile = new File(this.plugin.getDataFolder(), "config.yml");
         exists = configFile.exists();
-        boolean setHeaderFooter = !configFile.exists();
+        boolean setHeaderFooter = !exists;
         boolean changed = setHeaderFooter;
 
         this.configuration = CommentedFileConfiguration.loadConfiguration(this.plugin, configFile);

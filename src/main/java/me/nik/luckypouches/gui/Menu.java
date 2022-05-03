@@ -1,7 +1,7 @@
 package me.nik.luckypouches.gui;
 
 import me.nik.luckypouches.LuckyPouches;
-import me.nik.luckypouches.utils.Messenger;
+import me.nik.luckypouches.utils.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -48,14 +48,14 @@ public abstract class Menu implements InventoryHolder {
 
         ItemMeta itemMeta = item.getItemMeta();
 
-        itemMeta.setDisplayName(Messenger.format(displayName));
+        itemMeta.setDisplayName(ChatUtils.format(displayName));
 
         if (lore != null) {
 
             List<String> loreList = new ArrayList<>();
 
             for (String l : lore) {
-                loreList.add(Messenger.format(l));
+                loreList.add(ChatUtils.format(l));
             }
 
             itemMeta.setLore(loreList);

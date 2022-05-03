@@ -1,6 +1,6 @@
 package me.nik.luckypouches.managers;
 
-import me.nik.luckypouches.utils.Messenger;
+import me.nik.luckypouches.utils.ChatUtils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -91,7 +91,7 @@ public class ItemBuilder {
         ItemMeta meta = item.getItemMeta();
 
         if (this.name != null) {
-            meta.setDisplayName(Messenger.format(this.name));
+            meta.setDisplayName(ChatUtils.format(this.name));
         }
 
         if (this.lores != null && this.lores.size() > 0) {
@@ -99,7 +99,7 @@ public class ItemBuilder {
             List<String> loresToAdd = new ArrayList<>();
 
             for (String l : this.lores) {
-                loresToAdd.add(Messenger.format(l));
+                loresToAdd.add(ChatUtils.format(l));
             }
 
             meta.setLore(loresToAdd);

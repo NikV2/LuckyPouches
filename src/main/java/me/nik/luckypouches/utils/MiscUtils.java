@@ -30,19 +30,19 @@ public final class MiscUtils {
         long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
 
         StringBuilder sb = new StringBuilder(64);
-        if (days != 0) {
+        if (days > 0L) {
             sb.append(days);
             sb.append(" Days ");
         }
-        if (hours != 0) {
+        if (hours > 0L) {
             sb.append(hours);
             sb.append(" Hours ");
         }
-        if (minutes != 0) {
+        if (minutes > 0L) {
             sb.append(minutes);
             sb.append(" Minutes ");
         }
-        if (seconds != 0) {
+        if (seconds > 0L) {
             sb.append(seconds);
             sb.append(" Seconds");
         }

@@ -7,7 +7,7 @@ import me.nik.luckypouches.commands.subcommands.ListCommand;
 import me.nik.luckypouches.commands.subcommands.MenuCommand;
 import me.nik.luckypouches.commands.subcommands.ReloadCommand;
 import me.nik.luckypouches.managers.MsgType;
-import me.nik.luckypouches.utils.Messenger;
+import me.nik.luckypouches.utils.ChatUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class CommandManager implements TabExecutor {
 
-    private static final String INFO_MESSAGE = MsgType.PREFIX.getMessage() + Messenger.format(
+    private static final String INFO_MESSAGE = MsgType.PREFIX.getMessage() + ChatUtils.format(
             "&fThis server is running &b"
                     + LuckyPouches.getInstance().getDescription().getName()
                     + " &fversion &bv" + LuckyPouches.getInstance().getDescription().getVersion()

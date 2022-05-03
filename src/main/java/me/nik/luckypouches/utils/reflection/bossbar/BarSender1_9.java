@@ -1,6 +1,6 @@
 package me.nik.luckypouches.utils.reflection.bossbar;
 
-import me.nik.luckypouches.utils.Messenger;
+import me.nik.luckypouches.utils.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -43,7 +43,7 @@ public class BarSender1_9 implements BarSender {
 
     @Override
     public void show() {
-        this.bar = Bukkit.createBossBar(Messenger.format(this.text), this.color, this.style);
+        this.bar = Bukkit.createBossBar(ChatUtils.format(this.text), this.color, this.style);
 
         this.bar.setProgress(this.percent);
         this.bar.addPlayer(this.player);

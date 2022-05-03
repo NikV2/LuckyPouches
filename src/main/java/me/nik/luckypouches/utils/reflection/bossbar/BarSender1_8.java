@@ -1,6 +1,6 @@
 package me.nik.luckypouches.utils.reflection.bossbar;
 
-import me.nik.luckypouches.utils.Messenger;
+import me.nik.luckypouches.utils.ChatUtils;
 import me.nik.luckypouches.utils.reflection.ReflectionUtils;
 import org.bukkit.Location;
 import org.bukkit.boss.BarColor;
@@ -59,14 +59,14 @@ public class BarSender1_8 implements BarSender {
             } else {
                 // spawn it 400 blocks above the player so you don't see it die at 0 health
                 //fd = new FakeDragon(text, player.getLocation().add(0, 400, 0), percent);
-                fd = new FakeDragon(Messenger.format(text), loc, percent);
+                fd = new FakeDragon(ChatUtils.format(text), loc, percent);
                 Object mobPacket = fd.getSpawnPacket();
                 ReflectionUtils.sendPacket(player, mobPacket);
                 DRAGONS.put(uuid, fd);
             }
 
             // set the status of the dragon and send the package to the player
-            fd.setName(Messenger.format(text));
+            fd.setName(ChatUtils.format(text));
             fd.setHealth(percent);
             Object metaPacket = fd.getMetaPacket(fd.getWatcher());
             Object teleportPacket = fd.getTeleportPacket(loc);
@@ -180,7 +180,7 @@ public class BarSender1_8 implements BarSender {
 
             a.invoke(watcher, 0, (byte) 0x20); // visible, 0 = true, 0x20 = false
             a.invoke(watcher, 6, health); // health
-            a.invoke(watcher, 10, Messenger.format(name)); // name
+            a.invoke(watcher, 10, ChatUtils.format(name)); // name
             a.invoke(watcher, 11, (byte) 1); // show name, 1 = true, 0 = false
             return watcher;
         }

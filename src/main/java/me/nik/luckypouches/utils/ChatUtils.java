@@ -2,9 +2,9 @@ package me.nik.luckypouches.utils;
 
 import org.bukkit.ChatColor;
 
-public final class Messenger {
+public final class ChatUtils {
 
-    private Messenger() {
+    private ChatUtils() {
     }
 
     public static String format(String msg) {

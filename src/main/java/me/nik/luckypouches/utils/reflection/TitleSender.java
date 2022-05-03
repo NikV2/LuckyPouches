@@ -1,6 +1,6 @@
 package me.nik.luckypouches.utils.reflection;
 
-import me.nik.luckypouches.utils.Messenger;
+import me.nik.luckypouches.utils.ChatUtils;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
@@ -24,7 +24,7 @@ public final class TitleSender {
 
         try {
 
-            player.sendTitle(Messenger.format(title), Messenger.format(subtitle), fadeIn, stay, fadeOut);
+            player.sendTitle(ChatUtils.format(title), ChatUtils.format(subtitle), fadeIn, stay, fadeOut);
 
         } catch (NoSuchMethodError e) {
 
@@ -42,7 +42,7 @@ public final class TitleSender {
 
                 if (title != null && !title.isEmpty()) {
 
-                    Object titleComponent = aMethod.invoke(null, "{\"text\": \"" + Messenger.format(title) + "\"}");
+                    Object titleComponent = aMethod.invoke(null, "{\"text\": \"" + ChatUtils.format(title) + "\"}");
 
                     Object titlePacket = packetPlayOutTitleConstructor.newInstance(ReflectionUtils.getField(clsEnumTitleAction, "TITLE").get(null), titleComponent);
 
@@ -50,7 +50,7 @@ public final class TitleSender {
                 }
                 if (subtitle != null && !subtitle.isEmpty()) {
 
-                    Object subtitleComponent = aMethod.invoke(null, "{\"text\": \"" + Messenger.format(subtitle) + "\"}");
+                    Object subtitleComponent = aMethod.invoke(null, "{\"text\": \"" + ChatUtils.format(subtitle) + "\"}");
 
                     Object subtitlePacket = packetPlayOutTitleConstructor.newInstance(ReflectionUtils.getField(clsEnumTitleAction, "SUBTITLE").get(null), subtitleComponent);
 

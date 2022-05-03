@@ -5,7 +5,7 @@ import me.nik.luckypouches.api.Pouch;
 import me.nik.luckypouches.gui.PaginatedMenu;
 import me.nik.luckypouches.gui.PlayerMenu;
 import me.nik.luckypouches.managers.ItemBuilder;
-import me.nik.luckypouches.utils.Messenger;
+import me.nik.luckypouches.utils.ChatUtils;
 import me.nik.luckypouches.utils.MiscUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -26,7 +26,7 @@ public class ListGUI extends PaginatedMenu {
 
     @Override
     protected String getMenuName() {
-        return Messenger.format("&9&lPouch List");
+        return ChatUtils.format("&9&lPouch List");
     }
 
     @Override

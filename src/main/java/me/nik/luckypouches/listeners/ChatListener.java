@@ -6,7 +6,7 @@ import me.nik.luckypouches.gui.menus.search.SearchMaterialGUI;
 import me.nik.luckypouches.managers.MsgType;
 import me.nik.luckypouches.managers.PouchCreationState;
 import me.nik.luckypouches.managers.Profile;
-import me.nik.luckypouches.utils.Messenger;
+import me.nik.luckypouches.utils.ChatUtils;
 import me.nik.luckypouches.utils.TaskUtils;
 import me.nik.luckypouches.utils.reflection.ActionbarSender;
 import org.bukkit.entity.Player;
@@ -30,7 +30,7 @@ public class ChatListener implements Listener {
                 .filter(profile -> profile.getPouchCreationState() != PouchCreationState.NONE)
                 .forEach(profile -> ActionbarSender.sendActionbar(
                         profile.getPlayer(),
-                        Messenger.format("&f&lType &b&lcancel&f&l to return"))
+                        ChatUtils.format("&f&lType &b&lcancel&f&l to return"))
                 ), 40, 40);
     }
 

@@ -6,7 +6,7 @@ import me.nik.luckypouches.gui.PlayerMenu;
 import me.nik.luckypouches.managers.MsgType;
 import me.nik.luckypouches.managers.PouchCreationState;
 import me.nik.luckypouches.managers.Profile;
-import me.nik.luckypouches.utils.Messenger;
+import me.nik.luckypouches.utils.ChatUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -27,7 +27,7 @@ public class SearchMaterialGUI extends PaginatedMenu {
 
     @Override
     protected String getMenuName() {
-        return Messenger.format("&9&lSelect the Pouch Material");
+        return ChatUtils.format("&9&lSelect the Pouch Material");
     }
 
     @Override
