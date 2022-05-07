@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Lang {
 
@@ -13,7 +14,9 @@ public class Lang {
     private FileConfiguration lang;
 
     public void setup(LuckyPouches plugin) {
+
         file = new File(plugin.getDataFolder(), "lang.yml");
+
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -21,6 +24,7 @@ public class Lang {
                 e.printStackTrace();
             }
         }
+
         lang = YamlConfiguration.loadConfiguration(file);
     }
 
@@ -67,5 +71,18 @@ public class Lang {
         get().addDefault("creating_created", "&fYour new Pouch has been created!");
         get().addDefault("creating_cancelled", "&fYou have cancelled the creation of a Pouch.");
         get().addDefault("creating_search_material", "&fPlease enter the material name.");
+        get().addDefault("pouch_shop_sign", Arrays.asList(
+                "&f&l[&bPouch Shop&f&l]",
+                "&7Click to Purchase",
+                "%pouch%",
+                "%price%"
+        ));
+        get().addDefault("pouch_shop_invalid_pouch", "&cPlease provide a valid pouch id.");
+        get().addDefault("pouch_shop_invalid_currency", "&cPlease provide a valid currency type.");
+        get().addDefault("pouch_shop_invalid_price", "&cPlease provide a valid price.");
+        get().addDefault("pouch_shop_created", "&fYou have successfully created a pouch shop sign.");
+        get().addDefault("pouch_shop_removed", "&fYou have removed a pouch shop sign at &9%location%&f.");
+        get().addDefault("pouch_shop_purchase", "&fYou've successfully purchased a %pouch% &f!");
+        get().addDefault("pouch_shop_unable", "&cYou're unable to purchase this pouch!");
     }
 }

@@ -4,13 +4,12 @@ import me.nik.luckypouches.LuckyPouches;
 import me.nik.luckypouches.api.AnimationType;
 import me.nik.luckypouches.api.Pouch;
 import me.nik.luckypouches.files.Config;
+import me.nik.luckypouches.utils.MiscUtils;
 import me.nik.luckypouches.utils.reflection.TitleSender;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.text.DecimalFormat;
 
 public class Title extends AnimationType {
 
@@ -23,8 +22,13 @@ public class Title extends AnimationType {
         super("TITLE", Config.Setting.ANIMATIONS_TITLE_COOLDOWN.getInt(), Config.Setting.ANIMATIONS_TITLE_SHOW_PRIZE_MESSAGE.getBoolean());
 
         this.plugin = plugin;
-        this.startSound = Config.Setting.ANIMATIONS_TITLE_START_SOUND.getString().isEmpty() ? null : Sound.valueOf(Config.Setting.ANIMATIONS_TITLE_START_SOUND.getString());
-        this.endSound = Config.Setting.ANIMATIONS_TITLE_END_SOUND.getString().isEmpty() ? null : Sound.valueOf(Config.Setting.ANIMATIONS_TITLE_END_SOUND.getString());
+        this.startSound = Config.Setting.ANIMATIONS_TITLE_START_SOUND.getString().isEmpty()
+                ? null
+                : Sound.valueOf(Config.Setting.ANIMATIONS_TITLE_START_SOUND.getString());
+
+        this.endSound = Config.Setting.ANIMATIONS_TITLE_END_SOUND.getString().isEmpty()
+                ? null
+                : Sound.valueOf(Config.Setting.ANIMATIONS_TITLE_END_SOUND.getString());
     }
 
     @Override
@@ -32,8 +36,9 @@ public class Title extends AnimationType {
 
         new BukkitRunnable() {
 
-            final String number = (Config.Setting.ANIMATIONS_TITLE_FORMAT.getBoolean() ? (new DecimalFormat("#,###").format(LuckyPouches.giveReward(player, pouch))) : String.valueOf(LuckyPouches.giveReward(player, pouch)));
-
+            final String number = (Config.Setting.ANIMATIONS_TITLE_FORMAT.getBoolean()
+                    ? (MiscUtils.PRICE_FORMAT.format(LuckyPouches.giveReward(player, pouch)))
+                    : String.valueOf(LuckyPouches.giveReward(player, pouch)));
 
             final String prefix = Config.Setting.ANIMATIONS_TITLE_PREFIX_COLOR.getString() + pouch.getEconomy().getPrefix();
             final String suffix = Config.Setting.ANIMATIONS_TITLE_SUFFIX_COLOR.getString() + pouch.getEconomy().getSuffix();

@@ -30,8 +30,14 @@ public class Vault extends CurrencyType {
     }
 
     @Override
-    public void processPayment(Player player, long amount) {
-        if (econ == null) return;
-        econ.depositPlayer(player, amount);
+    public void deposit(Player player, double amount) {
+        if (this.econ == null) return;
+        this.econ.depositPlayer(player, amount);
+    }
+
+    @Override
+    public boolean withdraw(Player player, double amount) {
+        if (this.econ == null) return false;
+        return this.econ.withdrawPlayer(player, amount).transactionSuccess();
     }
 }

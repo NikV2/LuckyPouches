@@ -3,6 +3,7 @@ package me.nik.luckypouches.utils;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.inventory.ItemStack;
 
+import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +14,8 @@ public final class MiscUtils {
 
     private MiscUtils() {
     }
+
+    public static final DecimalFormat PRICE_FORMAT = new DecimalFormat("#,###");
 
     /**
      * Convert a millisecond duration to a string format

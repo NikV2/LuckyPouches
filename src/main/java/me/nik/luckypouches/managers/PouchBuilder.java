@@ -1,5 +1,6 @@
 package me.nik.luckypouches.managers;
 
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.nik.luckypouches.utils.ChatUtils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -9,8 +10,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class ItemBuilder {
+public class PouchBuilder {
 
     private final ItemStack itemStack;
     private Material material;
@@ -21,7 +23,7 @@ public class ItemBuilder {
     private boolean isUrl;
     private String headData;
 
-    public ItemBuilder() {
+    public PouchBuilder() {
         this.itemStack = new ItemStack(Material.STONE);
         this.name = "";
         this.material = Material.STONE;
@@ -42,7 +44,7 @@ public class ItemBuilder {
 
         try {
             this.material = Material.valueOf(material);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             this.material = Material.STONE;
         }
     }
@@ -50,9 +52,7 @@ public class ItemBuilder {
     public void setHeadData(String data) {
         this.headData = data;
 
-        if (data.length() > 16) {
-            this.isUrl = data.startsWith("http");
-        }
+        if (data.length() > 16) this.isUrl = data.startsWith("http");
     }
 
     public void setName(String name) {
@@ -68,7 +68,9 @@ public class ItemBuilder {
     }
 
     public ItemStack build() {
+
         ItemStack item;
+
         if (this.head) {
             try {
                 item = new ItemStack(Material.valueOf("PLAYER_HEAD"));
@@ -77,11 +79,9 @@ public class ItemBuilder {
             }
 
             if (!this.headData.isEmpty()) {
-                if (this.isUrl) {
-                    item = SkullCreator.itemWithUrl(item, this.headData);
-                } else {
-                    item = SkullCreator.itemWithBase64(item, this.headData);
-                }
+                item = this.isUrl
+                        ? SkullCreator.itemWithUrl(item, this.headData)
+                        : SkullCreator.itemWithBase64(item, this.headData);
             }
         } else {
             item = this.itemStack;
@@ -95,24 +95,24 @@ public class ItemBuilder {
         }
 
         if (this.lores != null && this.lores.size() > 0) {
-
-            List<String> loresToAdd = new ArrayList<>();
-
-            for (String l : this.lores) {
-                loresToAdd.add(ChatUtils.format(l));
-            }
-
-            meta.setLore(loresToAdd);
+            meta.setLore(this.lores.stream().map(ChatUtils::format).collect(Collectors.toList()));
         }
 
-        if (this.glowing) {
+        if (this.glowing && !meta.hasEnchants()) {
 
-            meta.addEnchant(Enchantment.DURABILITY, 1, false);
+            //Apply by using both methods due to 1.8 -> Latest.
+            item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+            meta.addEnchant(Enchantment.DURABILITY, 1, true);
+
+            //Hide them while keeping the glow effect.
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
 
         item.setItemMeta(meta);
 
-        return item;
+        NBTItem nbtItem = new NBTItem(item);
+        nbtItem.setBoolean("luckypouches", true);
+
+        return nbtItem.getItem();
     }
 }

@@ -4,7 +4,6 @@ import me.nik.luckypouches.LuckyPouches;
 import me.nik.luckypouches.api.Pouch;
 import me.nik.luckypouches.gui.PaginatedMenu;
 import me.nik.luckypouches.gui.PlayerMenu;
-import me.nik.luckypouches.managers.ItemBuilder;
 import me.nik.luckypouches.utils.ChatUtils;
 import me.nik.luckypouches.utils.MiscUtils;
 import org.bukkit.Bukkit;
@@ -13,8 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ListGUI extends PaginatedMenu {
 
@@ -76,18 +75,7 @@ public class ListGUI extends PaginatedMenu {
 
         if (this.section == null) return;
 
-        List<ItemStack> pouches = new ArrayList<>();
-
-        for (String pouch : this.section.getKeys(false)) {
-            ItemBuilder pb = new ItemBuilder();
-            pb.setName(this.section.getString(pouch + ".name"));
-            pb.setMaterial(this.section.getString(pouch + ".material"));
-            pb.setGlowing(this.section.getBoolean(pouch + ".glow"));
-            pb.setHeadData(this.section.getString(pouch + ".head_data"));
-            pb.setLores(this.section.getStringList(pouch + ".lore"));
-            pb.setGlowing(this.section.getBoolean(pouch + ".glow"));
-            pouches.add(pb.build());
-        }
+        List<ItemStack> pouches = plugin.getPouches().stream().map(Pouch::getItem).collect(Collectors.toList());
 
         if (!pouches.isEmpty()) {
             for (int i = 0; i < super.maxItemsPerPage; i++) {

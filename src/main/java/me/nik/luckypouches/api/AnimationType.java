@@ -22,7 +22,7 @@ public abstract class AnimationType {
         return cooldown;
     }
 
-    public boolean isSendRewardMessage() {
+    public boolean shouldSendRewardMessage() {
         return sendRewardMessage;
     }
 

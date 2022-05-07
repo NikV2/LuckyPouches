@@ -33,7 +33,7 @@ public class PouchListener implements Listener {
 
         if (handItem == null || handItem.getType() == Material.AIR || !MiscUtils.hasPouchNBTTag(handItem)) return;
 
-        this.plugin.getPouches().stream().filter(pouch -> MiscUtils.isSimilar(handItem, pouch.getItem())).forEach(pouch -> {
+        this.plugin.getPouches().stream().filter(pouch -> MiscUtils.isSimilar(handItem, pouch.getItem())).findFirst().ifPresent(pouch -> {
 
             e.setCancelled(true);
 
@@ -56,7 +56,9 @@ public class PouchListener implements Listener {
 
                 } else {
 
-                    player.sendMessage(MsgType.POUCH_COOLDOWN.getMessage().replace("%time%", MiscUtils.getDurationBreakdown(animationCooldown - currentTime)).replace("%pouch%", pouch.getItem().getItemMeta().getDisplayName()));
+                    player.sendMessage(MsgType.POUCH_COOLDOWN.getMessage().replace("%time%",
+                                    MiscUtils.getDurationBreakdown(animationCooldown - currentTime))
+                            .replace("%pouch%", pouch.getItem().getItemMeta().getDisplayName()));
 
                     return;
                 }

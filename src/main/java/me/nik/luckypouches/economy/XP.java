@@ -11,8 +11,16 @@ public class XP extends CurrencyType {
     }
 
     @Override
-    public void processPayment(Player player, long amount) {
-        if (!player.isOnline()) return;
+    public void deposit(Player player, double amount) {
         player.giveExp((int) amount);
+    }
+
+    @Override
+    public boolean withdraw(Player player, double amount) {
+        if (player.getTotalExperience() < amount) return false;
+
+        player.giveExp((int) -amount);
+
+        return true;
     }
 }

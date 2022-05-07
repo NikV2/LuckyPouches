@@ -10,8 +10,8 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class Menu implements InventoryHolder {
 
@@ -51,14 +51,7 @@ public abstract class Menu implements InventoryHolder {
         itemMeta.setDisplayName(ChatUtils.format(displayName));
 
         if (lore != null) {
-
-            List<String> loreList = new ArrayList<>();
-
-            for (String l : lore) {
-                loreList.add(ChatUtils.format(l));
-            }
-
-            itemMeta.setLore(loreList);
+            itemMeta.setLore(lore.stream().map(ChatUtils::format).collect(Collectors.toList()));
         }
 
         item.setItemMeta(itemMeta);

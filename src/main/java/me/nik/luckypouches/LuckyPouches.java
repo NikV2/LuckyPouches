@@ -1,6 +1,5 @@
 package me.nik.luckypouches;
 
-import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.nik.luckypouches.animations.Actionbar;
 import me.nik.luckypouches.animations.BossBar;
 import me.nik.luckypouches.animations.None;
@@ -18,17 +17,18 @@ import me.nik.luckypouches.files.commentedfiles.CommentedFileConfiguration;
 import me.nik.luckypouches.listeners.ChatListener;
 import me.nik.luckypouches.listeners.GuiListener;
 import me.nik.luckypouches.listeners.PouchListener;
-import me.nik.luckypouches.managers.ItemBuilder;
+import me.nik.luckypouches.listeners.PouchShopListener;
 import me.nik.luckypouches.managers.MsgType;
+import me.nik.luckypouches.managers.PouchBuilder;
 import me.nik.luckypouches.managers.Profile;
 import me.nik.luckypouches.managers.UpdateChecker;
 import me.nik.luckypouches.metrics.MetricsLite;
 import me.nik.luckypouches.tasks.CacheTask;
 import me.nik.luckypouches.utils.reflection.ReflectionUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
@@ -79,9 +79,9 @@ public final class LuckyPouches extends JavaPlugin {
 
         long amount = ThreadLocalRandom.current().nextLong(pouch.getMin(), pouch.getMax());
 
-        pouch.getEconomy().processPayment(player, amount);
+        pouch.getEconomy().deposit(player, amount);
 
-        if (pouch.getAnimation().isSendRewardMessage()) {
+        if (pouch.getAnimation().shouldSendRewardMessage()) {
 
             player.sendMessage(MsgType.PRIZE.getMessage().replace("%amount%",
                     pouch.getEconomy().getPrefix() + amount + pouch.getEconomy().getSuffix())
@@ -101,6 +101,7 @@ public final class LuckyPouches extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
         plugin = this;
 
         this.getServer().getConsoleSender().sendMessage(STARTUP_MESSAGE);
@@ -127,16 +128,18 @@ public final class LuckyPouches extends JavaPlugin {
         initializePouches();
 
         //Initialize listeners
-        PluginManager pm = this.getServer().getPluginManager();
-        pm.registerEvents(new GuiListener(), this);
-        pm.registerEvents(new ChatListener(this), this);
-        pm.registerEvents(new PouchListener(this), this);
+        Arrays.asList(
+                new GuiListener(),
+                new ChatListener(this),
+                new PouchListener(this),
+                new PouchShopListener(this)
+        ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
 
         //Initialize tasks
         new CacheTask(this).runTaskTimerAsynchronously(
                 this,
-                Config.Setting.SETTINGS_CACHE_INTERVAL.getInt(),
-                Config.Setting.SETTINGS_CACHE_INTERVAL.getInt()
+                Config.Setting.SETTINGS_CACHE_INTERVAL.getLong(),
+                Config.Setting.SETTINGS_CACHE_INTERVAL.getLong()
         );
 
         getCommand("luckypouches").setExecutor(new CommandManager(this));
@@ -167,13 +170,23 @@ public final class LuckyPouches extends JavaPlugin {
 
         this.pouches.clear();
 
-        final CommentedFileConfiguration config = this.config.getConfig();
+        CommentedFileConfiguration config = this.config.getConfig();
 
-        for (String s : config.getConfigurationSection("pouches").getKeys(false)) {
+        config.getConfigurationSection("pouches").getKeys(false).forEach(key -> {
 
-            String path = "pouches." + s;
+            String path = "pouches." + key;
 
-            ItemBuilder pb = new ItemBuilder();
+            CurrencyType currencyType = this.currencies.stream()
+                    .filter(currency -> currency.getName().equalsIgnoreCase(config.getString(path + ".currency")))
+                    .findFirst()
+                    .orElse(new Vault());
+
+            AnimationType animationType = this.animations.stream()
+                    .filter(animation -> animation.getName().equalsIgnoreCase(config.getString(path + ".animation")))
+                    .findFirst()
+                    .orElse(new None());
+
+            PouchBuilder pb = new PouchBuilder();
 
             pb.setName(config.getString(path + ".name"));
             pb.setMaterial(config.getString(path + ".material"));
@@ -181,36 +194,15 @@ public final class LuckyPouches extends JavaPlugin {
             pb.setGlowing(config.getBoolean(path + ".glow"));
             pb.setHeadData(config.getString(path + ".head_data"));
 
-            long min = config.getLong(path + ".min");
-            long max = config.getLong(path + ".max");
-
-            String economy = config.getString(path + ".currency") == null ? "VAULT" : config.getString(path + ".currency");
-
-            CurrencyType currencyType = new Vault();
-
-            for (CurrencyType econ : this.currencies) {
-
-                if (!economy.equalsIgnoreCase(econ.getName())) continue;
-
-                currencyType = econ;
-            }
-
-            String animation = config.getString(path + ".animation") == null ? "NONE" : config.getString(path + ".animation");
-
-            AnimationType animationType = new None();
-
-            for (AnimationType anim : this.animations) {
-
-                if (!animation.equalsIgnoreCase(anim.getName())) continue;
-
-                animationType = anim;
-            }
-
-            NBTItem nbtItem = new NBTItem(pb.build());
-            nbtItem.setBoolean("luckypouches", true);
-
-            pouches.add(new Pouch(s.replace(" ", "_"), min, max, nbtItem.getItem(), currencyType, animationType));
-        }
+            this.pouches.add(new Pouch(
+                    key.replace(" ", "_"),
+                    config.getLong(path + ".min"),
+                    config.getLong(path + ".max"),
+                    pb.build(),
+                    currencyType,
+                    animationType
+            ));
+        });
     }
 
     @Override

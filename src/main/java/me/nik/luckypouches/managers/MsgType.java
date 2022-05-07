@@ -28,7 +28,14 @@ public enum MsgType {
     CREATING_CURRENCY(PREFIX.getMessage() + ChatUtils.format(LuckyPouches.getInstance().getLang().get().getString("creating_currency"))),
     CREATING_CREATED(PREFIX.getMessage() + ChatUtils.format(LuckyPouches.getInstance().getLang().get().getString("creating_created"))),
     CREATING_CANCELLED(PREFIX.getMessage() + ChatUtils.format(LuckyPouches.getInstance().getLang().get().getString("creating_cancelled"))),
-    CREATING_SEARCH_MATERIAL(PREFIX.getMessage() + ChatUtils.format(LuckyPouches.getInstance().getLang().get().getString("creating_search_material")));
+    CREATING_SEARCH_MATERIAL(PREFIX.getMessage() + ChatUtils.format(LuckyPouches.getInstance().getLang().get().getString("creating_search_material"))),
+    POUCH_SHOP_INVALID_POUCH(PREFIX.getMessage() + ChatUtils.format(LuckyPouches.getInstance().getLang().get().getString("pouch_shop_invalid_pouch"))),
+    POUCH_SHOP_INVALID_CURRENCY(PREFIX.getMessage() + ChatUtils.format(LuckyPouches.getInstance().getLang().get().getString("pouch_shop_invalid_currency"))),
+    POUCH_SHOP_INVALID_PRICE(PREFIX.getMessage() + ChatUtils.format(LuckyPouches.getInstance().getLang().get().getString("pouch_shop_invalid_price"))),
+    POUCH_SHOP_CREATED(PREFIX.getMessage() + ChatUtils.format(LuckyPouches.getInstance().getLang().get().getString("pouch_shop_created"))),
+    POUCH_SHOP_REMOVED(PREFIX.getMessage() + ChatUtils.format(LuckyPouches.getInstance().getLang().get().getString("pouch_shop_removed"))),
+    POUCH_SHOP_PURCHASE(PREFIX.getMessage() + ChatUtils.format(LuckyPouches.getInstance().getLang().get().getString("pouch_shop_purchase"))),
+    POUCH_SHOP_UNABLE(PREFIX.getMessage() + ChatUtils.format(LuckyPouches.getInstance().getLang().get().getString("pouch_shop_unable")));
 
     private final String message;
 
