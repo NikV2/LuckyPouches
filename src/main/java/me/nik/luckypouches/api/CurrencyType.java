@@ -24,7 +24,7 @@ public abstract class CurrencyType {
         return name;
     }
 
-    public abstract void deposit(Player player, double amount);
+    public abstract void deposit(Player player, long amount);
 
-    public abstract boolean withdraw(Player player, double amount);
+    public abstract boolean withdraw(Player player, long amount);
 }

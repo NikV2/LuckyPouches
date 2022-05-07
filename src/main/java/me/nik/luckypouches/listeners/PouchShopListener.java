@@ -61,11 +61,11 @@ public class PouchShopListener implements Listener {
             return;
         }
 
-        double price;
+        long price;
 
         try {
 
-            price = Double.parseDouble(lines[3]);
+            price = Long.parseLong(lines[3]);
 
         } catch (NumberFormatException ex) {
             player.sendMessage(MsgType.POUCH_SHOP_INVALID_PRICE.getMessage());

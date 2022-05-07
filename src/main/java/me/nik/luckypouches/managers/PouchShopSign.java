@@ -14,7 +14,7 @@ public class PouchShopSign {
     private final Location location;
     private final Pouch pouch;
     private final CurrencyType currencyType;
-    private final double price;
+    private final long price;
 
     public PouchShopSign(String str) {
 
@@ -33,10 +33,10 @@ public class PouchShopSign {
         this.currencyType = LuckyPouches.getInstance().getCurrencies().stream().filter(currencyType ->
                 currencyType.getName().equals(data[5])).findFirst().orElse(null);
 
-        this.price = Double.parseDouble(data[6]);
+        this.price = Long.parseLong(data[6]);
     }
 
-    public PouchShopSign(Location location, Pouch pouch, CurrencyType currencyType, double price) {
+    public PouchShopSign(Location location, Pouch pouch, CurrencyType currencyType, long price) {
         this.location = location;
         this.pouch = pouch;
         this.currencyType = currencyType;
@@ -94,7 +94,7 @@ public class PouchShopSign {
         return currencyType;
     }
 
-    public double getPrice() {
+    public long getPrice() {
         return price;
     }
 
