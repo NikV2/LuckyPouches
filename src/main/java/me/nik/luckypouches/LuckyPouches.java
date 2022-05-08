@@ -138,8 +138,8 @@ public final class LuckyPouches extends JavaPlugin {
         //Initialize tasks
         new CacheTask(this).runTaskTimerAsynchronously(
                 this,
-                Config.Setting.SETTINGS_CACHE_INTERVAL.getLong(),
-                Config.Setting.SETTINGS_CACHE_INTERVAL.getLong()
+                Config.Setting.SETTINGS_CACHE_INTERVAL.getLong() * 20L,
+                Config.Setting.SETTINGS_CACHE_INTERVAL.getLong() * 20L
         );
 
         getCommand("luckypouches").setExecutor(new CommandManager(this));

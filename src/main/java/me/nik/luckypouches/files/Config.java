@@ -73,7 +73,7 @@ public class Config {
     public enum Setting {
         SETTINGS("settings", "", "Plugin Settings"),
         SETTINGS_CHECK_FOR_UPDATES("settings.check_for_updates", true, "Would you like to check for Updates on startup?"),
-        SETTINGS_CACHE_INTERVAL("settings.cache_interval", 120, "How often should LuckyPouches clear invalid player cache? (Interval in seconds)"),
+        SETTINGS_CACHE_INTERVAL("settings.cache_interval", 120, "How often should LuckyPouches clear invalid player cache? (In seconds)"),
 
         POUCHES("pouches", "", "Pouch List"),
         POUCH_COMMON_NAME("pouches.common.name", "&6&lCommon Pouch", true, "The display name of the Pouch"),
